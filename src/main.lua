@@ -1,57 +1,77 @@
 --[[
-  @brief  ÃæÏò¶ÔÏó»úÖÆÄ£ÄâÊµÏÖ
-      Ô­Àí¼ò½é£ºÕâÖÖÊµÏÖ»úÖÆÓÐ¸öºÜÃ÷È·µÄ¸ÅÄî£¬ÄÇ¾ÍÊÇÎÒÃÇÖ»ÄÜÓÃclassº¯ÊýÀàÉú²úÒ»¸öÀà£¬ÎÒÃÇ¿ÉÒÔ¶¨ÒåÀàµÄ·½·¨£¬µ«ÊÇÈç¹ûÎÒÃÇÏëÊ¹ÓÃÀàµÄ·½·¨£¬
-      ±ØÐëÍ¨¹ýnewµÄ²Ù×÷À´»ñÈ¡Ò»¸ö¸ÃÀàµÄ¶ÔÏó£¬Í¨¹ý¸Ã¶ÔÏóµ÷ÓÃ¡£Õâ¾ÍÊÇÒ»¸öÊµÀý»¯µÄ¹ý³Ì£¬ÍêÈ«Ä£ÄâÁËÆäËûÓïÑÔÖÐÃæÏò¶ÔÏóµÄÌØÐÔ£¬ºÜºÃµÄ²ûÊöÁËÁËÀàºÍ¶ÔÏóµÄ¹ØÏµ£º
-      ¶ÔÏóÊÇÒ»¸öÀàµÄÊµÀý¡£
-     ÔÚclassº¯ÊýµÄÊµÏÖÖÐ£¬ÖÐÐÄË¼ÏëÊÇ°ÑÎÒÃÇÒªÉú³ÉµÄ¶ÔÏó·ÅÔÚ_classÕâ¸ö±íÖÐ£¬¶øË÷ÒýÕâ¸öÖµµÄkey¾ÍÊÇclass_type£¨¿ÉÒÔÀí½âÎªÀàÃû£©,¶øÖµ¾ÍÊÇº¯ÊýÖÐµÄvtbl±í£»
-  class_typeÊÇº¯ÊýÒª·µ»ØµÄ¶ÔÏó£¬Êµ¼ÊÉÏ¾ÍÊÇÎÒÃÇ¶¨ÒåµÄÀà¡£¶ø¿ÉÒÔ¿´µ½Õâ¸öÀà£¨Êµ¼Ê¾ÍÊÇÒ»¸ö±í£©Ä¬ÈÏÖ»ÓÐctor(¹¹Ôì),super(¸¸Àà),new(Éú³É¶ÔÏó)Èý¸öÔªËØ£¬
-  ctorÊÇÄ£ÄâµÄ¹¹Ôìº¯Êý£¬Ä¬ÈÏÎªfalseµÄÖµ£¬º¯ÊýÖÐÓÐÅÐ¶Ï£¬Îªfalse£¬²»»áµ÷ÓÃ£»superÊÇÄ£ÄâµÄ¸¸Àà£¬ËüÃ÷ÏÔÒ²Ó¦¸ÃÊÇÒ»¸ö±í£»newÊÇÉú³É¶ÔÏóµÄ·½·¨£¬ÎÒÃÇ¾ÍÊÇÊ¹ÓÃnewÀ´Éú³É¶ÔÏóµÄ£¬
-      º¯ÊýÖÐÒ²¶¨ÒåÁËnewº¯ÊýµÄ¾ßÌå²Ù×÷£¬¿ÉÒÔ¿´µ½£¬ÔÚnewº¯ÊýÖÐÈç¹û¹¹Ôì²»Îª¼Ù£¬»áµ÷ÓÃ¹¹Ôìº¯Êý£¬Èç¹ûsuper²»Îª¿Õ£¬»á´«Èësuper¼ÌÐøµ÷ÓÃcreate£¬Êµ¼Ê×÷ÓÃ¾ÍÊÇÈ¥µ÷ÓÃsuper£¨¸¸Àà£©µÄ¡£
-  new·µ»ØµÄÊÇÒ»¸öÐÂ½¨¿Õ±íobj£¬ÖØÒªµÄÊÇº¯ÊýÉèÖÃÁËobjµÄÔª±í£¬°ÑÔª±íµÄ__index¸´ÖÆÎª_class[class_type]£¬Ò²¾ÍÊÇvtbl¡£ÎÒÃÇÔÚÊ¹ÓÃobjµÄÊ±ºò£¬ËùÓÐÃ»ÓÐµÄ¶«Î÷¶¼»áÈ¥vtbl±í
-      ÀïÃæÕÒ¡£ÔÚº¯ÊýµÄ×îºó»¹ÉèÖÃÁËvtblµÄÔª±í£¬ÁíÆäÖÐ__indexµÈÓÚÒ»¸öº¯Êý£¬¾ÍÊÇÔÚvtblÕÒ²»µ½ÔªËØµÄÊ±ºò»áµ÷ÓÃÕâ¸öº¯Êý£¬¶øÕâ¸öº¯Êý¾ÍÊÇÔÚsuper£¨¸¸Àà£©ÀïÃæ²éÕÒÕâ¸öÔªËØ£¬ÕÒµ½ºó»á¸³¸øvtbl±í
-      ²¢ÇÒ·µ»ØÕâ¸öÔªËØ¡£º¯ÊýÔÚºóÃæ»¹Îªclass_typeÉèÖÃÁËÔª±í£¬ËüÉèÖÃÁË__newindex£¬ÒâË¼¾ÍÊÇÔÚÎªclass_typeÌí¼ÓÔªËØµÄÊ±ºò¶¼»áµ÷ÓÃ__newindex,¶øÔÚ__newindexº¯ÊýÀïÃæÊµ¼Ê¾ÍÊÇ
-      °ÑÔ­±¾Òª¸³µÄÖµ¸³Öµ¸øÁËvtbl±í£¬Õâ¸öÔªËØÊµ¼ÊÉÏÊÇÔÚvtbl±íÀïÃæ£¬ËùÒÔÎÒÃÇÎª×Ô¼ºÉú³ÉµÄÀàÌí¼ÓÔªËØµÄÊ±ºò£¬Ö®ºó²¢²»ÄÜÖ±½Ó·ÃÎÊµ½£¬Ö»ÄÜÍ¨¹ýnewµÄ¶ÔÏóÀ´·ÃÎÊ£¨newµÄ¶ÔÏó·µ»ØµÄÊÇÒ»¸öÔª±í__indexÉèÖÃÎªvtbl±íµÄ¿Õ±í£©¡£
+  @brief  é¢å‘å¯¹è±¡æœºåˆ¶æ¨¡æ‹Ÿå®žçŽ°
+      åŽŸç†ç®€ä»‹ï¼šè¿™ç§å®žçŽ°æœºåˆ¶æœ‰ä¸ªå¾ˆæ˜Žç¡®çš„æ¦‚å¿µï¼Œé‚£å°±æ˜¯æˆ‘ä»¬åªèƒ½ç”¨classå‡½æ•°ç±»ç”Ÿäº§ä¸€ä¸ªç±»ï¼Œæˆ‘ä»¬å¯ä»¥å®šä¹‰ç±»çš„æ–¹æ³•ï¼Œä½†
+
+æ˜¯å¦‚æžœæˆ‘ä»¬æƒ³ä½¿ç”¨ç±»çš„æ–¹æ³•ï¼Œ
+      å¿…é¡»é€šè¿‡newçš„æ“ä½œæ¥èŽ·å–ä¸€ä¸ªè¯¥ç±»çš„å¯¹è±¡ï¼Œé€šè¿‡è¯¥å¯¹è±¡è°ƒç”¨ã€‚è¿™å°±æ˜¯ä¸€ä¸ªå®žä¾‹åŒ–çš„è¿‡ç¨‹ï¼Œå®Œå…¨æ¨¡æ‹Ÿäº†å…¶ä»–è¯­è¨€ä¸­é¢å‘
+
+å¯¹è±¡çš„ç‰¹æ€§ï¼Œå¾ˆå¥½çš„é˜è¿°äº†äº†ç±»å’Œå¯¹è±¡çš„å…³ç³»ï¼š
+      å¯¹è±¡æ˜¯ä¸€ä¸ªç±»çš„å®žä¾‹ã€‚
+     åœ¨classå‡½æ•°çš„å®žçŽ°ä¸­ï¼Œä¸­å¿ƒæ€æƒ³æ˜¯æŠŠæˆ‘ä»¬è¦ç”Ÿæˆçš„å¯¹è±¡æ”¾åœ¨_classè¿™ä¸ªè¡¨ä¸­ï¼Œè€Œç´¢å¼•è¿™ä¸ªå€¼çš„keyå°±æ˜¯class_typeï¼ˆå¯
+
+ä»¥ç†è§£ä¸ºç±»åï¼‰,è€Œå€¼å°±æ˜¯å‡½æ•°ä¸­çš„vtblè¡¨ï¼›
+  class_typeæ˜¯å‡½æ•°è¦è¿”å›žçš„å¯¹è±¡ï¼Œå®žé™…ä¸Šå°±æ˜¯æˆ‘ä»¬å®šä¹‰çš„ç±»ã€‚è€Œå¯ä»¥çœ‹åˆ°è¿™ä¸ªç±»ï¼ˆå®žé™…å°±æ˜¯ä¸€ä¸ªè¡¨ï¼‰é»˜è®¤åªæœ‰ctor(æž„
+
+é€ ),super(çˆ¶ç±»),new(ç”Ÿæˆå¯¹è±¡)ä¸‰ä¸ªå…ƒç´ ï¼Œ
+  ctoræ˜¯æ¨¡æ‹Ÿçš„æž„é€ å‡½æ•°ï¼Œé»˜è®¤ä¸ºfalseçš„å€¼ï¼Œå‡½æ•°ä¸­æœ‰åˆ¤æ–­ï¼Œä¸ºfalseï¼Œä¸ä¼šè°ƒç”¨ï¼›superæ˜¯æ¨¡æ‹Ÿçš„çˆ¶ç±»ï¼Œå®ƒæ˜Žæ˜¾ä¹Ÿåº”è¯¥æ˜¯ä¸€
+
+ä¸ªè¡¨ï¼›newæ˜¯ç”Ÿæˆå¯¹è±¡çš„æ–¹æ³•ï¼Œæˆ‘ä»¬å°±æ˜¯ä½¿ç”¨newæ¥ç”Ÿæˆå¯¹è±¡çš„ï¼Œ
+      å‡½æ•°ä¸­ä¹Ÿå®šä¹‰äº†newå‡½æ•°çš„å…·ä½“æ“ä½œï¼Œå¯ä»¥çœ‹åˆ°ï¼Œåœ¨newå‡½æ•°ä¸­å¦‚æžœæž„é€ ä¸ä¸ºå‡ï¼Œä¼šè°ƒç”¨æž„é€ å‡½æ•°ï¼Œå¦‚æžœsuperä¸ä¸ºç©ºï¼Œ
+
+ä¼šä¼ å…¥superç»§ç»­è°ƒç”¨createï¼Œå®žé™…ä½œç”¨å°±æ˜¯åŽ»è°ƒç”¨superï¼ˆçˆ¶ç±»ï¼‰çš„ã€‚
+  newè¿”å›žçš„æ˜¯ä¸€ä¸ªæ–°å»ºç©ºè¡¨objï¼Œé‡è¦çš„æ˜¯å‡½æ•°è®¾ç½®äº†objçš„å…ƒè¡¨ï¼ŒæŠŠå…ƒè¡¨çš„__indexå¤åˆ¶ä¸º_class[class_type]ï¼Œä¹Ÿå°±æ˜¯vtbl
+
+ã€‚æˆ‘ä»¬åœ¨ä½¿ç”¨objçš„æ—¶å€™ï¼Œæ‰€æœ‰æ²¡æœ‰çš„ä¸œè¥¿éƒ½ä¼šåŽ»vtblè¡¨
+      é‡Œé¢æ‰¾ã€‚åœ¨å‡½æ•°çš„æœ€åŽè¿˜è®¾ç½®äº†vtblçš„å…ƒè¡¨ï¼Œå¦å…¶ä¸­__indexç­‰äºŽä¸€ä¸ªå‡½æ•°ï¼Œå°±æ˜¯åœ¨vtblæ‰¾ä¸åˆ°å…ƒç´ çš„æ—¶å€™ä¼šè°ƒç”¨è¿™ä¸ª
+
+å‡½æ•°ï¼Œè€Œè¿™ä¸ªå‡½æ•°å°±æ˜¯åœ¨superï¼ˆçˆ¶ç±»ï¼‰é‡Œé¢æŸ¥æ‰¾è¿™ä¸ªå…ƒç´ ï¼Œæ‰¾åˆ°åŽä¼šèµ‹ç»™vtblè¡¨
+      å¹¶ä¸”è¿”å›žè¿™ä¸ªå…ƒç´ ã€‚å‡½æ•°åœ¨åŽé¢è¿˜ä¸ºclass_typeè®¾ç½®äº†å…ƒè¡¨ï¼Œå®ƒè®¾ç½®äº†__newindexï¼Œæ„æ€å°±æ˜¯åœ¨ä¸ºclass_typeæ·»åŠ å…ƒç´ 
+
+çš„æ—¶å€™éƒ½ä¼šè°ƒç”¨__newindex,è€Œåœ¨__newindexå‡½æ•°é‡Œé¢å®žé™…å°±æ˜¯
+      æŠŠåŽŸæœ¬è¦èµ‹çš„å€¼èµ‹å€¼ç»™äº†vtblè¡¨ï¼Œè¿™ä¸ªå…ƒç´ å®žé™…ä¸Šæ˜¯åœ¨vtblè¡¨é‡Œé¢ï¼Œæ‰€ä»¥æˆ‘ä»¬ä¸ºè‡ªå·±ç”Ÿæˆçš„ç±»æ·»åŠ å…ƒç´ çš„æ—¶å€™ï¼Œä¹‹åŽå¹¶
+
+ä¸èƒ½ç›´æŽ¥è®¿é—®åˆ°ï¼Œåªèƒ½é€šè¿‡newçš„å¯¹è±¡æ¥è®¿é—®ï¼ˆnewçš„å¯¹è±¡è¿”å›žçš„æ˜¯ä¸€ä¸ªå…ƒè¡¨__indexè®¾ç½®ä¸ºvtblè¡¨çš„ç©ºè¡¨ï¼‰ã€‚
   
 ]]
 
-local _class = {}                   --´´½¨Ò»¸ö¿Õ±í
+local _class = {}                   --åˆ›å»ºä¸€ä¸ªç©ºè¡¨
 
 function class(super) 
-  local class_type = {}             --´´½¨Ò»¸ö¿Õ±í
-  class_type.ctor = false           --¹¹Ôìº¯ÊýÎª¼Ù£¨Ä¬ÈÏÎÞ¹¹Ôì£©
-  class_type.super = super          --»ùÀàÎª´«ÈëµÄ¶ÔÏó£¬²»´«ÔòÎªnil
-  class_type.new = function (...)   --¶¨Òånewº¯Êý£¬Éú³ÉÀàµÄ¶ÔÏó
-    local obj = {}                  --´´½¨Ò»¸ö¿Õ±í£¬newÉú³ÉµÄÐÂ¶ÔÏó¾ÍÊÇÕâ¸ö±í
+  local class_type = {}             --åˆ›å»ºä¸€ä¸ªç©ºè¡¨
+  class_type.ctor = false           --æž„é€ å‡½æ•°ä¸ºå‡ï¼ˆé»˜è®¤æ— æž„é€ ï¼‰
+  class_type.super = super          --åŸºç±»ä¸ºä¼ å…¥çš„å¯¹è±¡ï¼Œä¸ä¼ åˆ™ä¸ºnil
+  class_type.new = function (...)   --å®šä¹‰newå‡½æ•°ï¼Œç”Ÿæˆç±»çš„å¯¹è±¡
+    local obj = {}                  --åˆ›å»ºä¸€ä¸ªç©ºè¡¨ï¼Œnewç”Ÿæˆçš„æ–°å¯¹è±¡å°±æ˜¯è¿™ä¸ªè¡¨
     do
-      local create                  --createº¯ÊýÓÃÓÚÔÚÉú³É¶ÔÏóµÄÊ±ºòµ÷ÓÃ¸Ã¶ÔÏóµÄ¹¹Ôìº¯Êý£¨Èç¹û¸Ã¶ÔÏóÓÐ¹¹Ôìº¯ÊýµÄ»°£¨Ä¬ÈÏÎªfalse£©£©
-      create = function (c,...)     --ÉùÃ÷¾Ö²¿µÄcreateº¯Êý µÈÍ¬ÓÚ local function create().....
+      local create                  --createå‡½æ•°ç”¨äºŽåœ¨ç”Ÿæˆå¯¹è±¡çš„æ—¶å€™è°ƒç”¨è¯¥å¯¹è±¡çš„æž„é€ å‡½æ•°ï¼ˆå¦‚æžœè¯¥å¯¹è±¡æœ‰æž„é€ å‡½æ•°çš„è¯ï¼ˆé»˜è®¤ä¸ºfalseï¼‰ï¼‰
+      create = function (c,...)     --å£°æ˜Žå±€éƒ¨çš„createå‡½æ•° ç­‰åŒäºŽ local function create().....
         if c.super then             --
-          create(c.super)           --Èç¹û´«ÈëµÄ¶ÔÏóµÄ»ùÀà²»Îª¿Õ£¬µÝ¹éµ÷ÓÃcreate´«Èë»ùÀà¼ÌÐøcreate,µÝ¹éµ÷ÓÃÖ÷ÒªÊÇ±£Ö¤ÄÜ¹»µ÷ÓÃµ½¸¸ÀàµÄ¹¹Ôì
+          create(c.super)           --å¦‚æžœä¼ å…¥çš„å¯¹è±¡çš„åŸºç±»ä¸ä¸ºç©ºï¼Œé€’å½’è°ƒç”¨createä¼ å…¥åŸºç±»ç»§ç»­create,é€’å½’è°ƒç”¨ä¸»è¦æ˜¯ä¿è¯èƒ½å¤Ÿè°ƒç”¨åˆ°çˆ¶ç±»çš„æž„é€ 
         end
         if c.ctor then              --
-          c.ctor(obj,...)           --Èç¹û´«Èë¶ÔÏóµÄ¹¹Ôì²»Îª¿Õ£¬µ÷ÓÃ¸Ã¶ÔÏóµÄ¹¹Ôìº¯Êý
+          c.ctor(obj,...)           --å¦‚æžœä¼ å…¥å¯¹è±¡çš„æž„é€ ä¸ä¸ºç©ºï¼Œè°ƒç”¨è¯¥å¯¹è±¡çš„æž„é€ å‡½æ•°
         end
       end
-      create(class_type,...)        --µ÷ÓÃcreateº¯Êý
+      create(class_type,...)        --è°ƒç”¨createå‡½æ•°
     end
 
-    setmetatable(obj,{ __index=_class[class_type] })      --ÉèÖÃobjµÄÔª±í,__index¸³ÖµÎª_class[class_type]£¬¼´ÏÂÎÄµÄvtbl£¬ÒâÒåÎª£ºµ±ÔÚobjÀïÕÒ²»µ½·½·¨Ê±¶¼ÔÚvtblÀïÃæÕÒ
+    setmetatable(obj,{ __index=_class[class_type] })      --è®¾ç½®objçš„å…ƒè¡¨,__indexèµ‹å€¼ä¸º_class[class_type]ï¼Œå³ä¸‹æ–‡çš„vtblï¼Œæ„ä¹‰ä¸ºï¼šå½“åœ¨objé‡Œæ‰¾ä¸åˆ°æ–¹æ³•æ—¶éƒ½åœ¨vtblé‡Œé¢æ‰¾
     return obj
   end
   
-  local vtbl={}                             --´´½¨Ò»¸ö¿Õ±í
-  _class[class_type]=vtbl                   --°Ñ¸Õ´´½¨µÄ¿Õ±í´æ·ÅÔÚ_class±íµÄclass_typeÏÂ
+  local vtbl={}                             --åˆ›å»ºä¸€ä¸ªç©ºè¡¨
+  _class[class_type]=vtbl                   --æŠŠåˆšåˆ›å»ºçš„ç©ºè¡¨å­˜æ”¾åœ¨_classè¡¨çš„class_typeä¸‹
 
-  setmetatable(class_type,{__newindex=      --ÉèÖÃclass_typeµÄÔª±í£¬¸²¸ÇÁË__newindex£¬Ã¿´ÎÔÚ¸øclass_type¸³ÖµÊ±£¬¶¼»áÖ´ÐÐvtbl[k]=v£¬Êµ¼ÊÉÏ¾ÍÊÇ¸ø±ívtbl¸³Öµ
+  setmetatable(class_type,{__newindex=      --è®¾ç½®class_typeçš„å…ƒè¡¨ï¼Œè¦†ç›–äº†__newindexï¼Œæ¯æ¬¡åœ¨ç»™class_typeèµ‹å€¼æ—¶ï¼Œéƒ½ä¼šæ‰§è¡Œvtbl[k]=vï¼Œå®žé™…ä¸Šå°±æ˜¯ç»™è¡¨vtblèµ‹å€¼
     function(t,k,v)
       vtbl[k]=v
     end
   })
 
-  if super then                             --Èç¹ûsuper²»Îª¿Õ£¬ÉèÖÃvtblµÄÔª±í£¬ÔÙÃ¿´Îµ÷ÓÃvtblµÄ·½·¨µÄÊ±ºò£¬Èç¹ûÃ»ÓÐ¾Í´ÓsuperÀïÕÒ£¬ÕÒµ½ºó¸³¸øvtbl£¬²¢·µ»Ø¸ÃÖµ
+  if super then                             --å¦‚æžœsuperä¸ä¸ºç©ºï¼Œè®¾ç½®vtblçš„å…ƒè¡¨ï¼Œå†æ¯æ¬¡è°ƒç”¨vtblçš„æ–¹æ³•çš„æ—¶å€™ï¼Œå¦‚æžœæ²¡æœ‰å°±ä»Žsuperé‡Œæ‰¾ï¼Œæ‰¾åˆ°åŽèµ‹ç»™vtblï¼Œå¹¶è¿”å›žè¯¥å€¼
     setmetatable(vtbl,{__index=
       function(t,k)
-        local ret=_class[super][k]          --ËùÓÐÍ¨¹ýclassÉú³ÉµÄÀà¶¼ÊÇÒÔ×Ô¼ºµÄÀàÎªkeyÖµ´æ·ÅµÄ£¬ËùÒÔÕâ¿ÉÒÔÍ¨¹ýsuperÀ´Ë÷Òý³ö¸¸Àà±í
+        local ret=_class[super][k]          --æ‰€æœ‰é€šè¿‡classç”Ÿæˆçš„ç±»éƒ½æ˜¯ä»¥è‡ªå·±çš„ç±»ä¸ºkeyå€¼å­˜æ”¾çš„ï¼Œæ‰€ä»¥è¿™å¯ä»¥é€šè¿‡superæ¥ç´¢å¼•å‡ºçˆ¶ç±»è¡¨
         vtbl[k]=ret
         return ret
       end
